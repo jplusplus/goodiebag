@@ -72,6 +72,8 @@ def get_dates(text):
     return dates
 
 
+
+print(get_dates("2015-10-02"))
 print(get_dates("I dag är det den 6 maj 2015"))
 print(get_dates("2015-10-02 och 2015-10-03"))
 
