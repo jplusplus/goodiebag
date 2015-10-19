@@ -16,6 +16,7 @@ def flatten_list(list_):
             for outer in list_
             for inner in outer]
 
+
 print(flatten_list([[1, 2], [3], [4, 5]]))
 
-print([1, 2, 3, 1, 6, 1, 4, 5])
+print(get_unique([1, 2, 3, 1, 6, 1, 4, 5]))
