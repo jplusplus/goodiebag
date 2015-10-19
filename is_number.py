@@ -36,9 +36,7 @@ def parse_float(string):
 print(is_number("1234"))
 print(is_number("1234.5"))
 print(is_number("1234,5"))
-print(is_number("1 234,5"))
-print(is_number("1,234.5"))
-print(is_number("abc1234.5"))
+print(is_number("abc1234.5w"))
 
 print(parse_float("1234"))
 print(parse_float("1234.5"))
