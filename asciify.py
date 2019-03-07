@@ -1,4 +1,3 @@
-# coding: utf-8
 """
  ASCII är den teckenuppsättning som användes i datorernas barndom,
  och som fortfarande är en vanlig begränsning i e-postadresser
@@ -8,6 +7,7 @@
  För en utförligare lista över latinska tecken, se
  https://en.wikipedia.org/wiki/List_of_Latin-script_letters
 """
+import unicodedata
 
 
 def asciify(string):
@@ -16,35 +16,17 @@ def asciify(string):
      tecken, som ofta används som ersättare i e-postadresser
      och liknande.
     """
-    replacements = [("å", "a"), ("ä", "a"), ("ö", "o"),
-                    ("Å", "a"), ("Ä", "a"), ("Ö", "o"),
-                    ("é", "e"), ("È", "e"), ("È", "E"), ("è", "e"),
-                    ("Ë", "E"), ("ë", "e"), ("Ê", "E"), ("ê", "e"),
-                    ("ü", "u"), ("Ü", "U"),
-                    ("Š", "S"), ("š", "s"), ("Ž", "Z"), ("ž", "z"),
-                    ("Œ", "OE"), ("œ", "oe"),
-                    ("Ÿ", "Y"), ("ÿ", "y"),
-                    ("À", "A"), ("à", "a"), ("Á", "A"), ("á", "a"),
-                    ("Â", "A"), ("â", "a"), ("Ã", "A"), ("ã", "a"),
-                    ("Æ", "Ä"), ("æ", "ä"),
-                    ("Ç", "C"), ("ç", "c"),
-                    ("Í", "I"), ("í", "i"), ("Ì", "I"), ("ì", "i"),
-                    ("İ", "I"), ("ı", "i"),
-                    ("Ó", "O"), ("ó", "o"), ("Ò", "O"), ("ò", "o"),
-                    ("Õ", "O"), ("õ", "o"), ("Ô", "O"), ("ô", "o"),
-                    ("Ú", "U"), ("ú", "u"), ("Ù", "U"), ("ù", "u"),
-                    ("Û", "u"), ("û", "u"),
-                    ("Ð", "D"), ("ð", "d"),
-                    ("Ñ", "N"), ("ñ", "n"),
-                    ("ß", "ss"),
-                    ("Ø", "O"), ("ø", "o")
-                    ]
-    # Fler latinska tecken här:
-    #  https://en.wikipedia.org/wiki/List_of_Latin-script_letters
+    # Some additional replacements, not handled by Unicode normalization
+    replacements = [
+        ("ʻ", "'"),  # Polynesian/Hawaiian okina
+        ("ł", "l"), ("Ł", "L"),
+    ]
     for replacement in replacements:
         string = string.replace(replacement[0], replacement[1])
-
-    return string
+    # Use Unicode normalization for the rest
+    string = unicodedata.normalize('NFD', string).encode('ascii', 'ignore')
+    # Return ASCII string, crash on invalid input
+    return string.decode("ascii")
 
 
 def emailify(string):
@@ -57,5 +39,5 @@ def emailify(string):
     return string
 
 
-print(asciify("Göteborg"))
-print(emailify("Fredrik Laurin"))
+print(asciify("Erdoğan på besök i Łódź"))
+print(emailify("Örjan de-Vriis"))
